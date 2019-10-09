@@ -19,12 +19,22 @@ public class CustomMapEventReciever implements MapEventsReceiver {
     private MapView mv;
     private Context c;
     private Polyline last = null;
+
+    private GeoPoint start,end;
     public CustomMapEventReciever(MapView mv, Context c){
         this.mv = mv;
         this.c =c;
     }
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
+        if(this.start ==null){
+            this.start = p;
+        }else if (this.end == null){
+            this.end = p;
+        }else{
+            this.start = this.end = null;
+        }
+        Log.d("DEBUG","justeclick");
         DownloadRoute dr = new DownloadRoute(mv, c,this.last,Color.GREEN);
         dr.setGeoPoint(p);
         dr.execute("");
